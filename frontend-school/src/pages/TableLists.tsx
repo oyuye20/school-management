@@ -14,12 +14,12 @@ const schema = z.object({
     middle_name: z.string().default("qwewq").nullable(),
     last_name: z.string().nonempty("Last name required"),
     birthday: z.string().nonempty("Birthday required"),
-    house_no: z.string(),
-    street: z.string(),
-    province: z.string(),
-    city: z.string(),
-    barangay: z.string(),
-    email: z.email(),
+    house_no: z.string().nonempty("House number required"),
+    street: z.string().nonempty("Street required"),
+    province: z.string().nonempty("Province required"),
+    city: z.string().nonempty("City required"),
+    barangay: z.string().nonempty("Barangay required"),
+    email: z.email().nonempty("Email required"),
     password: z.string().min(6)
 })
 
