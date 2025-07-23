@@ -5,10 +5,37 @@ import { useSearchParams } from "react-router-dom"
 import { useState, type FormEvent } from "react";
 import Table from "../component_folder/Table";
 import Pagination from "../component_folder/Pagination";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+    first_name: z.string().nonempty("First name required"),
+    middle_name: z.string().default("qwewq").nullable(),
+    last_name: z.string().nonempty("Last name required"),
+    birthday: z.string().nonempty("Birthday required"),
+    house_no: z.string(),
+    street: z.string(),
+    province: z.string(),
+    city: z.string(),
+    barangay: z.string(),
+    email: z.email(),
+    password: z.string().min(6)
+})
+
+type StudentFields = z.infer<typeof schema>;
+
+
 
 function TableLists() {
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<StudentFields>({
+        resolver: zodResolver(schema),
+    });
+
 
     const [searchParams, setSearchParams] = useSearchParams();
+    const [toggleMiddleName, setMiddleName] = useState(true);
+
     const query = searchParams.get("q");
     const [term, setTerm] = useState(query || "");
 
@@ -17,8 +44,9 @@ function TableLists() {
         setSearchParams((prev) => ({ ...prev, q: term }))
     }
 
-
-
+    const saveStudent = (data: StudentFields) => {
+        console.log(data);
+    }
 
 
     return (
@@ -27,38 +55,59 @@ function TableLists() {
                 <div className="modal-box max-w-[600px] overflow-auto max-h-[600px]">
 
 
-                    <h3 className="font-bold text-lg flex items-center gap-2">
+                    <h1 className="font-bold text-2xl flex items-center gap-2">
                         Add new student
                         <span className="icon-[ion--people] text-2xl"></span>
-                    </h3>
+                    </h1>
 
 
                     {/* <button className="btn" onClick={() => (document.getElementById('my_modal_1') as HTMLDialogElement).close()}>Close modal</button> */}
 
-                    <form className="py-4 flex flex-col gap-4">
-
+                    <form className="py-4 flex flex-col gap-4" onSubmit={handleSubmit(saveStudent)}>
 
                         <div className="personal-info flex flex-col gap-4 pb-2">
+                            <h2 className="font-semibold text-lg">Personal Details</h2>
+
                             <div className="flex flex-col gap-4">
                                 <div className="form-group flex flex-col gap-2">
                                     <label htmlFor="first_name">First Name</label>
-                                    <input type="text" placeholder="Input here.." className="input w-full" id="first_name" name="first_name" />
+                                    <input type="text" placeholder="Input here.." {...register("first_name")} className="input w-full" id="first_name" name="first_name" />
+                                    {errors.first_name && (
+                                        <span className="text-red-500 font-semibold text-md">{errors.first_name.message}</span>
+                                    )}
                                 </div>
 
                                 <div className="form-group flex flex-col gap-2">
-                                    <label htmlFor="first_name">Middle Name</label>
-                                    <input type="text" placeholder="Input here.." className="input w-full" id="middle_name" name="middle_name" />
+
+                                    {toggleMiddleName && (
+                                        <>
+                                            <label htmlFor="first_name">Middle Name</label>
+                                            <input type="text" placeholder="Input here.." {...register("middle_name")} className="input w-full" id="middle_name" name="middle_name" />
+                                        </>
+                                    )}
+
+
+                                    <div className="flex gap-2">
+                                        <input type="checkbox" className="checkbox" id="no_middleName" name="no_middleName" onClick={() => setMiddleName(!toggleMiddleName)} />
+                                        <label htmlFor="no_middleName">No middle name</label>
+                                    </div>
                                 </div>
 
                                 <div className="form-group flex flex-col gap-2">
                                     <label htmlFor="first_name">Last Name</label>
-                                    <input type="text" placeholder="Input here.." className="input w-full" id="last_name" name="last_name" />
+                                    <input type="text" placeholder="Input here.." {...register("last_name")} className="input w-full" id="last_name" name="last_name" />
+                                    {errors.last_name && (
+                                        <span className="text-red-500 font-semibold text-md">{errors.last_name.message}</span>
+                                    )}
                                 </div>
 
 
                                 <div className="form-group flex flex-col gap-2">
                                     <label htmlFor="first_name">Birthday</label>
-                                    <input type="date" placeholder="Birthday" className="input w-full" id="birthday" name="birthday" />
+                                    <input type="date" placeholder="Birthday" {...register("birthday")} className="input w-full" id="birthday" name="birthday" />
+                                    {errors.birthday && (
+                                        <span className="text-red-500 font-semibold text-md">{errors.birthday.message}</span>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -66,7 +115,10 @@ function TableLists() {
                         <hr className="border-[#3B3B3B]" />
 
                         <div className="address-info flex flex-col gap-4">
-    
+                            <h2 className="font-semibold text-lg">Address Details</h2>
+
+
+
                             <div className="form-group flex flex-col gap-2">
                                 <label htmlFor="house_no">House no. / Building no.</label>
                                 <input type="text" placeholder="Input here.." className="input w-full" id="house_no" name="house_no" />
@@ -78,8 +130,8 @@ function TableLists() {
                             </div>
 
                             <div className="form-group flex flex-col gap-2">
-                                <label htmlFor="street">Province</label>
-                                <input type="text" placeholder="Input here.." className="input w-full" id="street" name="street" />
+                                <label htmlFor="province">Province</label>
+                                <input type="text" placeholder="Input here.." className="input w-full" id="province" name="province" />
                             </div>
 
 
@@ -87,22 +139,45 @@ function TableLists() {
                                 <label htmlFor="city">Municipality / City</label>
                                 <input type="text" placeholder="Input here.." className="input w-full" id="city" name="city" />
                             </div>
-                            
+
                             <div className="form-group flex flex-col gap-2">
                                 <label htmlFor="barangay">Barangay</label>
                                 <input type="text" placeholder="Input here.." className="input w-full" id="barangay" name="barangay" />
                             </div>
                         </div>
 
+                        <hr className="border-[#3B3B3B]" />
 
+                        <div className="account-info flex flex-col gap-4">
+                            <h2 className="font-semibold text-lg">Account Details</h2>
+
+
+
+                            <div className="form-group flex flex-col gap-2">
+                                <label htmlFor="email">Email</label>
+                                <input type="email" placeholder="Input here.." className="input w-full" id="email" name="email" />
+                            </div>
+
+                            <div className="form-group flex flex-col gap-2">
+                                <label htmlFor="password">Password</label>
+                                <input type="password" placeholder="Input here.." className="input w-full" id="password" name="password" />
+                            </div>
+
+                            <div className="form-group flex flex-col gap-2">
+                                <label htmlFor="confirm_pass">Confirm Password</label>
+                                <input type="password" placeholder="Input here.." className="input w-full" id="confirm_pass" name="confirm_pass" />
+                            </div>
+
+
+                        </div>
 
 
                         <div className="flex justify-end gap-3">
 
+                            <button type="submit" className="btn bg-[#72AF72] text-white"> Submit</button>
                             <button type="button" className="btn" onClick={() =>
                                 (document.getElementById('my_modal_1') as HTMLDialogElement).close()}>Close</button>
 
-                            <button type="submit" className="btn bg-[#72AF72] text-white"> Submit</button>
                         </div>
 
                         {/* <div className="modal-action">

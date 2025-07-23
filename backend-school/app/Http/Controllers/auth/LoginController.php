@@ -16,7 +16,6 @@ class LoginController extends Controller
 {
     public function register(Request $req)
     {
-
         try {
             $req->validate([
                 'name' => 'required',

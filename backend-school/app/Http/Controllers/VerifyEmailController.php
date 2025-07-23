@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
 class VerifyEmailController extends Controller
@@ -17,12 +19,6 @@ class VerifyEmailController extends Controller
             event(new Verified($request->user()));
         }
 
-        // After verification, you can log in the user if they weren't already.
-        // For SPA, it's common to then redirect to a success page
-        // which might then trigger a login or user data refresh on the SPA side.
-
-        // Determine where to redirect the user after successful verification
-        // This should be a route in your SPA, not a Laravel view.
-        return redirect('http://localhost:5173' . '/email-verified?status=success'); // Redirect to your SPA URL
+        return redirect('http://localhost:5173' . '/dashboard'); // Redirect to your SPA URL
     }
 }
