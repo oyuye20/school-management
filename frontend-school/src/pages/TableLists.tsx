@@ -20,7 +20,12 @@ const schema = z.object({
     city: z.string().nonempty("City required"),
     barangay: z.string().nonempty("Barangay required"),
     email: z.email().nonempty("Email required"),
-    password: z.string().min(6)
+    password: z.string().nonempty("Password required")
+        .min(6, "Password must minimum of length of 6"),
+    confirm_pass: z.string()
+}).refine((data) => data.password === data.confirm_pass, {
+    error: "Password don't match",
+    path: ["confirm_pass"]
 })
 
 type StudentFields = z.infer<typeof schema>;
@@ -121,28 +126,44 @@ function TableLists() {
 
                             <div className="form-group flex flex-col gap-2">
                                 <label htmlFor="house_no">House no. / Building no.</label>
-                                <input type="text" placeholder="Input here.." className="input w-full" id="house_no" name="house_no" />
+                                <input type="text" {...register("house_no")} placeholder="Input here.." className="input w-full" id="house_no" name="house_no" />
+                                {errors.house_no && (
+                                    <span className="text-red-500 font-semibold text-md">{errors.house_no.message}</span>
+                                )}
                             </div>
 
                             <div className="form-group flex flex-col gap-2">
                                 <label htmlFor="street">Street</label>
-                                <input type="text" placeholder="Input here.." className="input w-full" id="street" name="street" />
+                                <input type="text" {...register("street")} placeholder="Input here.." className="input w-full" id="street" name="street" />
+
+                                {errors.street && (
+                                    <span className="text-red-500 font-semibold text-md">{errors.street.message}</span>
+                                )}
                             </div>
 
                             <div className="form-group flex flex-col gap-2">
                                 <label htmlFor="province">Province</label>
-                                <input type="text" placeholder="Input here.." className="input w-full" id="province" name="province" />
+                                <input type="text" {...register("province")} placeholder="Input here.." className="input w-full" id="province" name="province" />
+                                {errors.province && (
+                                    <span className="text-red-500 font-semibold text-md">{errors.province.message}</span>
+                                )}
                             </div>
 
 
                             <div className="form-group flex flex-col gap-2">
                                 <label htmlFor="city">Municipality / City</label>
-                                <input type="text" placeholder="Input here.." className="input w-full" id="city" name="city" />
+                                <input type="text" {...register("city")} placeholder="Input here.." className="input w-full" id="city" name="city" />
+                                {errors.city && (
+                                    <span className="text-red-500 font-semibold text-md">{errors.city.message}</span>
+                                )}
                             </div>
 
                             <div className="form-group flex flex-col gap-2">
                                 <label htmlFor="barangay">Barangay</label>
-                                <input type="text" placeholder="Input here.." className="input w-full" id="barangay" name="barangay" />
+                                <input type="text" {...register("barangay")} placeholder="Input here.." className="input w-full" id="barangay" name="barangay" />
+                                {errors.barangay && (
+                                    <span className="text-red-500 font-semibold text-md">{errors.barangay.message}</span>
+                                )}
                             </div>
                         </div>
 
@@ -155,17 +176,26 @@ function TableLists() {
 
                             <div className="form-group flex flex-col gap-2">
                                 <label htmlFor="email">Email</label>
-                                <input type="email" placeholder="Input here.." className="input w-full" id="email" name="email" />
+                                <input type="email" {...register("email")} placeholder="Input here.." className="input w-full" id="email" name="email" />
+                                {errors.email && (
+                                    <span className="text-red-500 font-semibold text-md">{errors.email.message}</span>
+                                )}
                             </div>
 
                             <div className="form-group flex flex-col gap-2">
                                 <label htmlFor="password">Password</label>
-                                <input type="password" placeholder="Input here.." className="input w-full" id="password" name="password" />
+                                <input type="password" {...register("password")} placeholder="Input here.." className="input w-full" id="password" name="password" />
+                                {errors.password && (
+                                    <span className="text-red-500 font-semibold text-md">{errors.password.message}</span>
+                                )}
                             </div>
 
                             <div className="form-group flex flex-col gap-2">
                                 <label htmlFor="confirm_pass">Confirm Password</label>
-                                <input type="password" placeholder="Input here.." className="input w-full" id="confirm_pass" name="confirm_pass" />
+                                <input type="password" placeholder="Input here.." {...register("confirm_pass")} className="input w-full" id="confirm_pass" name="confirm_pass" />
+                                {errors.confirm_pass && (
+                                    <span className="text-red-500 font-semibold text-md">{errors.confirm_pass.message}</span>
+                                )}
                             </div>
 
 
