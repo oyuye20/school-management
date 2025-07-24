@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const ModalForm = () => {
-  return (
-    <div>ModalForm</div>
-  )
-}
+  return <div>ModalForm</div>;
+};
 
-export default ModalForm
+export default ModalForm;

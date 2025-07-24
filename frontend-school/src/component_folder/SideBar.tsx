@@ -1,95 +1,109 @@
-import { BadgeQuestionMark, Building2, Camera, ChartPie, Menu, Settings, UserRound } from "lucide-react"
-import { Link, NavLink } from "react-router-dom"
+import {
+  BadgeQuestionMark,
+  Building2,
+  Camera,
+  ChartPie,
+  Menu,
+  Settings,
+  UserRound,
+} from "lucide-react";
+import { Link, NavLink } from "react-router-dom";
 
 function Sidebar() {
-    return (
-        <>
-            <div className="sidebar bg-[#3c5137] flex flex-col">
-                <div className="flex items-center gap-5 p-4">
-                    <span className="icon-[logos--eventbrite-icon] text-[45px]"></span>
-                    <h1 className="text-white text-2xl font-semibold">School</h1>
-                </div>
+  return (
+    <>
+      <div className="sidebar bg-[#3c5137] flex flex-col">
+        <div className="flex items-center gap-5 p-4">
+          <span className="icon-[logos--eventbrite-icon] text-[45px]"></span>
+          <h1 className="text-white text-2xl font-semibold">School</h1>
+        </div>
 
-                <ul className="flex flex-col gap-5 grow py-7 px-3 w-[250px]">
-                    <h2 className="text-white font-medium py-1">Menu</h2>
+        <ul className="flex flex-col gap-5 grow py-7 px-3 w-[250px]">
+          <h2 className="text-white font-medium py-1">Menu</h2>
 
-                    <NavLink to={"/dashboard"} className={({ isActive }) =>
-                        `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
-                 ${isActive ? 'bg-[#B5D3B0] text-[#3B3B3B]' : 'text-white'}`
-                    }>
-                        {/* <Menu size={48} /> */}
-                        <span className="icon-[material-symbols--dashboard] text-2xl"></span>
-                        <span className="">Dashboard</span>
+          <NavLink
+            to={"/dashboard"}
+            className={({ isActive }) =>
+              `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
+                 ${isActive ? "bg-[#B5D3B0] text-[#3B3B3B]" : "text-white"}`
+            }
+          >
+            {/* <Menu size={48} /> */}
+            <span className="icon-[material-symbols--dashboard] text-2xl"></span>
+            <span className="">Dashboard</span>
+          </NavLink>
 
-                    </NavLink>
+          <NavLink
+            to={"/lists"}
+            className={({ isActive }) =>
+              `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
+                 ${isActive ? "bg-[#B5D3B0] text-[#3B3B3B]" : "text-white"}`
+            }
+          >
+            <span className="icon-[picon--student] text-2xl"></span>
+            <span className="">Students</span>
+          </NavLink>
 
+          <NavLink
+            to={"/teachers"}
+            className={({ isActive }) =>
+              `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
+                 ${isActive ? "bg-[#B5D3B0] text-[#3B3B3B]" : "text-white"}`
+            }
+          >
+            <span className="icon-[mdi--teacher] text-2xl"></span>
+            <span className="">Teachers</span>
+          </NavLink>
 
-                    <NavLink to={"/lists"} className={({ isActive }) =>
-                        `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
-                 ${isActive ? 'bg-[#B5D3B0] text-[#3B3B3B]' : 'text-white'}`
-                    }>
-                        <span className="icon-[picon--student] text-2xl"></span>
-                        <span className="">Students</span>
-                    </NavLink>
+          <NavLink
+            to={"/subjects"}
+            className={({ isActive }) =>
+              `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
+                 ${isActive ? "bg-[#B5D3B0] text-[#3B3B3B]" : "text-white"}`
+            }
+          >
+            <span className="icon-[famicons--book] text-2xl"></span>
+            <span className="">Subjects</span>
+          </NavLink>
 
+          <NavLink
+            to={"/classes"}
+            className={({ isActive }) =>
+              `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
+                 ${isActive ? "bg-[#B5D3B0] text-[#3B3B3B]" : "text-white"}`
+            }
+          >
+            <span className="icon-[entypo--blackboard] text-2xl"></span>
+            <span className="">Classes</span>
+          </NavLink>
+        </ul>
 
-                    <NavLink to={"/teachers"} className={({ isActive }) =>
-                        `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
-                 ${isActive ? 'bg-[#B5D3B0] text-[#3B3B3B]' : 'text-white'}`
-                    }>
-                        <span className="icon-[mdi--teacher] text-2xl"></span>
-                        <span className="">Teachers</span>
+        <div className="flex flex-col gap-5 py-5 px-3">
+          <NavLink
+            to={"/settings"}
+            className={({ isActive }) =>
+              `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
+                 ${isActive ? "bg-[#B5D3B0] text-[#3B3B3B]" : "text-white"}`
+            }
+          >
+            <span className="icon-[weui--setting-filled] text-2xl"></span>
+            <span className="">Settings</span>
+          </NavLink>
 
-                    </NavLink>
-
-
-                    <NavLink to={"/subjects"} className={({ isActive }) =>
-                        `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
-                 ${isActive ? 'bg-[#B5D3B0] text-[#3B3B3B]' : 'text-white'}`
-                    }>
-                        <span className="icon-[famicons--book] text-2xl"></span>
-                        <span className="">Subjects</span>
-
-                    </NavLink>
-
-                    <NavLink to={"/classes"} className={({ isActive }) =>
-                        `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
-                 ${isActive ? 'bg-[#B5D3B0] text-[#3B3B3B]' : 'text-white'}`
-                    }>
-                        <span className="icon-[entypo--blackboard] text-2xl"></span>
-                        <span className="">Classes</span>
-
-                    </NavLink>
-
-
-                </ul>
-
-                <div className="flex flex-col gap-5 py-5 px-3">
-
-
-                    <NavLink to={"/settings"} className={({ isActive }) =>
-                        `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
-                 ${isActive ? 'bg-[#B5D3B0] text-[#3B3B3B]' : 'text-white'}`
-                    }>
-                        <span className="icon-[weui--setting-filled] text-2xl"></span>
-                        <span className="">Settings</span>
-                    </NavLink>
-
-
-                    <NavLink to={"/logout"} className={({ isActive }) =>
-                        `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
-                 ${isActive ? 'bg-[#B5D3B0] text-[#3B3B3B]' : 'text-white'}`
-                    }>
-                        <span className="icon-[ion--exit] text-2xl"></span>
-                        <span className="">Logout</span>
-                    </NavLink>
-
-
-                </div>
-
-            </div>
-        </>
-    )
+          <NavLink
+            to={"/logout"}
+            className={({ isActive }) =>
+              `p-3 flex items-center gap-5 cursor-pointer font-bold text-md rounded-lg
+                 ${isActive ? "bg-[#B5D3B0] text-[#3B3B3B]" : "text-white"}`
+            }
+          >
+            <span className="icon-[ion--exit] text-2xl"></span>
+            <span className="">Logout</span>
+          </NavLink>
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default Sidebar
+export default Sidebar;
