@@ -25,9 +25,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::prefix('v1')->group(function () {
 
-    Route::middleware(['auth:sanctum'])->group(function(){
+    Route::middleware(['auth:sanctum'])->group(function () {
 
-        
+
     });
 
 
@@ -38,6 +38,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/students', [StudentController::class, 'index']);
     Route::post('/students', [StudentController::class, 'create']);
     /* END OF STUDENT ROUTE  */
+
+
+    Route::get('/students/{id}', [StudentController::class, 'showStudent']);
 });
 
 

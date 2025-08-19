@@ -13,8 +13,23 @@ use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
-    public function index(){
-        return Students::all();
+    public function index()
+    {
+        return Students::paginate(10);
+    }
+
+    public function showStudent($id)
+    {
+        $student = Students::find($id);
+
+        if (!$student) {
+            return response()->json([
+                'status' => 'error',
+                'message' => "Student with ID $id not found"
+            ], 404);
+        }
+
+        return $student;
     }
 
     public function create(StudentRequest $req)
@@ -42,7 +57,7 @@ class StudentController extends Controller
 
             return response()->json([
                 'message' => "student added",
-            ],200);
+            ], 200);
 
         } catch (\Throwable $th) {
             return response()->json([
