@@ -121,6 +121,9 @@
       <excludeFolder url="file://$MODULE_DIR$/backend-school/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/backend-school/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/backend-school/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/backend-school/vendor/spatie/laravel-permission" />
+      <excludeFolder url="file://$MODULE_DIR$/backend-school/vendor/symfony/polyfill-php84" />
+      <excludeFolder url="file://$MODULE_DIR$/backend-school/vendor/symfony/polyfill-php85" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

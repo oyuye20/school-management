@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\auth\ForgotPassword;
 use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\auth\ResetPassword;
 use App\Http\Controllers\EmailVerificationNotificationController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\VerifyEmailController;
@@ -32,6 +34,9 @@ Route::prefix('v1')->group(function () {
 
 
 
+    /* FOR FORGOT PASSWORD ROUTE */
+    Route::post('/forgot-password', [ForgotPassword::class, 'sendResetLinkEmail'])->name('password.reset');
+    Route::post('/reset-password', [ResetPassword::class, 'passwordUpdate'])->name('password.update');
 
 
     /* FOR STUDENT ROUTE */
