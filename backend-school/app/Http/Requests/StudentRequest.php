@@ -8,6 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StudentRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -31,7 +32,7 @@ class StudentRequest extends FormRequest
             'last_name' => 'required|min:1',
             'birthday' => 'required|min:1',
             'gender' => 'required|min:1',
-            'address' => 'required|min:1',
+            'contact_number'=> 'required|min:1',
         ];
     }
 

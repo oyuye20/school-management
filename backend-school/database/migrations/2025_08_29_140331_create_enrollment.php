@@ -17,11 +17,11 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained(
                 'students', 'id'
             )->onDelete('cascade');
-            
+
             $table->foreignId('grade_level_id')->constrained(
                 'grade_level', 'id'
             )->onDelete('cascade');
-            
+
             $table->foreignId('section_id')->constrained(
                 'sections', 'id'
             )->onDelete('cascade');

@@ -15,12 +15,20 @@ class StudentController extends Controller
 {
     public function index()
     {
-        return Students::paginate(10);
+        return User::with(['userInfo' => function ($q){
+            $q->select('first_name', 'last_name', 'user_id');
+        }, 'students' => function ($q) {
+            $q->select('user_id', 'student_id');
+        }])->paginate(10);
     }
 
     public function showStudent($id)
     {
-        $student = Students::find($id);
+        $student = User::with(['userInfo' => function ($q){
+            $q->select('first_name', 'last_name', 'user_id');
+        }, 'students' => function ($q) {
+            $q->select('user_id', 'student_id');
+        }])->find($id);
 
         if (!$student) {
             return response()->json([
@@ -28,31 +36,32 @@ class StudentController extends Controller
                 'message' => "Student with ID $id not found"
             ], 404);
         }
-
         return $student;
     }
 
     public function create(StudentRequest $req)
     {
-
         try {
             DB::transaction(function () use ($req) {
                 $user = User::create([
-                    'name' => $req->name,
                     'email' => $req->email,
                     'password' => Hash::make($req->password),
                 ]);
 
-                $user->student_info()->create([
+                $user->userInfo()->create([
                     'first_name' => $req->first_name,
                     'middle_name' => $req->middle_name,
                     'last_name' => $req->last_name,
                     'birthday' => $req->birthday,
                     'gender' => $req->gender,
-                    'address' => $req->address,
+                    'contact_number' => $req->contact_number
                 ]);
 
-                MailJob::dispatch($user);
+                $user->students()->create([
+                    'student_id' => '12345678'
+                ]);
+
+//                MailJob::dispatch($user);
             });
 
             return response()->json([
