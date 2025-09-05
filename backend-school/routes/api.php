@@ -5,6 +5,7 @@ use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\ResetPassword;
 use App\Http\Controllers\EmailVerificationNotificationController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\VerifyEmailController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -33,29 +34,34 @@ Route::prefix('v1')->group(function () {
     });
 
 
-
     /* FOR FORGOT PASSWORD ROUTE */
     Route::post('/forgot-password', [ForgotPassword::class, 'sendResetLinkEmail'])->name('password.reset');
     Route::post('/reset-password', [ResetPassword::class, 'passwordUpdate'])->name('password.update');
 
 
     /* FOR STUDENT ROUTE */
-    Route::get('/students', [StudentController::class, 'index']);
-    Route::post('/students', [StudentController::class, 'create']);
+    Route::prefix('/students')/*->middleware(['role:teacher', 'auth:sanctum'])*/->group(function () {
+        Route::get('/', [StudentController::class, 'index']);
+        Route::get('/{id}', [StudentController::class, 'showStudent']);
+        Route::post('/', [StudentController::class, 'create']);
+    });
     /* END OF STUDENT ROUTE  */
 
+    /* FOR TEACHER ROLE*/
+    Route::prefix('/teachers')->middleware([/*'role:teacher', 'auth:sanctum'*/])->group(function () {
+        Route::get('/', [TeacherController::class, 'index']);
+        Route::get('/{id}', [TeacherController::class, 'showTeacher']);
+        Route::post('/', [TeacherController::class, 'create']);
+    });
+    /* END OF FOR TEACHER ROLE*/
 
-    Route::get('/students/{id}', [StudentController::class, 'showStudent']);
+    Route::middleware(['guest'])->group(function () {
+        Route::post('/register', [LoginController::class, 'register']);
+        Route::post('/login', [LoginController::class, 'login']);
+    });
+
 });
 
-
-
-
-
-
-
-Route::post('/register', [LoginController::class, 'register']);
-Route::post('/login', [LoginController::class, 'login']);
 
 
 

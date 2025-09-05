@@ -52,7 +52,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $validate = $request->validate([
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 
@@ -66,7 +66,7 @@ class LoginController extends Controller
 
         return response()->json([
             'error' => 'Incorrect credentials',
-        ], 400);
+        ], 401);
 
     }
 

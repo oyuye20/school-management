@@ -2,51 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StudentRequest;
-use App\Jobs\MailJob;
-use App\Models\Students;
+use App\Http\Requests\TeacherRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-
-
-class StudentController extends Controller
+class TeacherController extends Controller
 {
-    public function index()
-    {
+    public function index(){
         return User::with(['userInfo' => function ($q){
             $q->select('first_name', 'last_name', 'user_id');
-        }, 'students' => function ($q) {
-            $q->select('user_id', 'student_id');
-        }])->paginate(10);
+        }, 'teachers' => function ($q) {
+            $q->select('employee_id', 'specialization');
+        }])->where(['role' => 'teacher'])->paginate(10);
     }
 
-    public function showStudent($id)
-    {
-        $student = User::with(['userInfo' => function ($q){
+    public function showTeacher($id) {
+        $teacher = User::with(['userInfo' => function ($q){
             $q->select('first_name', 'last_name', 'user_id');
-        }, 'students' => function ($q) {
-            $q->select('user_id', 'student_id');
-        }])->find($id);
+        }, 'teachers' => function ($q) {
+            $q->select('employee_id', 'specialization');
+        }])->where(['role' => 'teacher'])->find($id);
 
-        if (!$student) {
-            return response()->json([
-                'status' => 'error',
-                'message' => "Student with ID $id not found"
-            ], 404);
-        }
-        return $student;
+        if ($teacher)
+            return $teacher;
+
+        return response()->json([
+            'status' => 'error',
+            'message' => "Teacher with ID $id not found"
+        ], 404);
     }
 
-    public function create(StudentRequest $req)
-    {
+    public function delete($id){
+
+    }
+
+
+    public function create(TeacherRequest $req){
         try {
             DB::transaction(function () use ($req) {
                 $user = User::create([
                     'email' => $req->email,
                     'password' => Hash::make($req->password),
-                    'role' => 'student'
+                    'role' => 'teacher'
                 ]);
 
                 $user->userInfo()->create([
@@ -58,18 +57,16 @@ class StudentController extends Controller
                     'contact_number' => $req->contact_number
                 ]);
 
-
-                $studentId = random_int(1, 999999);
-
-                $user->students()->create([
-                    'student_id' => date("Y") . $studentId
+                $user->teachers()->create([
+                    'employee_id' => '12312331',
+                    'specialization' => $req->specialization
                 ]);
 
 //                MailJob::dispatch($user);
             });
 
             return response()->json([
-                'message' => "student added",
+                'message' => "Teacher added",
             ], 200);
 
         } catch (\Throwable $th) {
@@ -78,5 +75,4 @@ class StudentController extends Controller
             ], 500);
         }
     }
-
 }

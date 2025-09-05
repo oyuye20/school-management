@@ -2,7 +2,11 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 import { Home } from "./pages/Home.tsx";
 
 import { router } from "./routes/router.tsx";
@@ -15,7 +19,9 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <LoginProvider>
-        <RouterProvider router={router} />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </LoginProvider>
     </QueryClientProvider>
   </StrictMode>

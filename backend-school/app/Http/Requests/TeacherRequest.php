@@ -2,19 +2,16 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StudentRequest extends FormRequest
+class TeacherRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -25,6 +22,7 @@ class StudentRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => 'required|min:1',
             'email' => 'required|min:1',
             'password' => 'required|min:1',
             'first_name' => 'required|min:1',
@@ -32,15 +30,8 @@ class StudentRequest extends FormRequest
             'birthday' => 'required|min:1',
             'gender' => 'required|min:1',
             'contact_number'=> 'required|min:1',
+            'specialization' => 'required|min:1',
+            'employee_id' => 'required|unique'
         ];
     }
-
-    /* public function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'errors'      => $validator->errors()
-        ],422));
-    } */
 }
