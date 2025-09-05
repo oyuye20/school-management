@@ -26,7 +26,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'role'
     ];
+
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -63,6 +66,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Address::class);
     }
 
+    public function teachers(): HasOne {
+        return $this->hasOne(Teachers::class);
+    }
 
     public function sendPasswordResetNotification($token): void
     {
