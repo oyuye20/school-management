@@ -28,6 +28,9 @@ class TeacherController extends Controller
         if ($teacher)
             return $teacher;
 
+
+        
+
         return response()->json([
             'status' => 'error',
             'message' => "Teacher with ID $id not found"

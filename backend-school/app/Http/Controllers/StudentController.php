@@ -3,39 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StudentRequest;
+use App\Http\Resources\StudentResource;
 use App\Jobs\MailJob;
 use App\Models\Students;
 use App\Models\User;
+use App\Responses\MessageResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use PhpParser\Node\Expr\New_;
 
-
+use function Laravel\Prompts\select;
 
 class StudentController extends Controller
 {
     public function index()
     {
-        return User::with(['userInfo' => function ($q){
-            $q->select('first_name', 'last_name', 'user_id');
-        }, 'students' => function ($q) {
-            $q->select('user_id', 'student_id');
-        }])->paginate(10);
+        $students = User::with([
+            'userInfo' => function ($q) {
+                $q->select('first_name', 'last_name', 'user_id');
+            },
+            'students' => function ($q) {
+                $q->select('user_id', 'student_id');
+            }
+        ])->paginate(10);
+
+        return StudentResource::collection($students);
     }
 
     public function showStudent($id)
     {
-        $student = User::with(['userInfo' => function ($q){
-            $q->select('first_name', 'last_name', 'user_id');
-        }, 'students' => function ($q) {
-            $q->select('user_id', 'student_id');
-        }])->find($id);
+        $student = User::with([
+            'userInfo' => function ($q) {
+                $q->select('first_name', 'last_name', 'user_id');
+            },
+            'students' => function ($q) {
+                $q->select('user_id', 'student_id');
+            }
+        ])->find($id);
 
-        if (!$student) {
-            return response()->json([
-                'status' => 'error',
-                'message' => "Student with ID $id not found"
-            ], 404);
-        }
+        if (!$student)
+            return (new MessageResponse("Student with ID $id not found", 404, 'error'))->message();
+
+
         return $student;
     }
 
@@ -65,18 +74,32 @@ class StudentController extends Controller
                     'student_id' => date("Y") . $studentId
                 ]);
 
-//                MailJob::dispatch($user);
+                //                MailJob::dispatch($user);
             });
 
-            return response()->json([
-                'message' => "student added",
-            ], 200);
+            return (new MessageResponse('success', 200, 'Student added'))->message();
 
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => $th->getMessage()
             ], 500);
         }
+    }
+
+
+    public function update(StudentRequest $req, $id)
+    {
+
+    }
+
+    public function delete($id)
+    {
+        $student = User::find($id);
+
+        if (!$student)
+            return (new MessageResponse("Student with ID $id not found", 404, 'error'))->message();
+
+        return $student;
     }
 
 }
