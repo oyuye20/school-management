@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import { Home } from "../pages/Home";
 import { Dashboard } from "../pages/Dashboard";
-import TableLists from "../pages/TableLists";
+import StudentLists from "../pages/StudentLists.tsx";
 import Settings from "../pages/Settings";
 import Teachers from "../pages/Teachers";
 
@@ -23,7 +23,7 @@ export const router = createBrowserRouter([
 
   {
     path: '/lists',
-    element: <TableLists />
+    element: <StudentLists />
   },
 
   {

@@ -11,7 +11,7 @@ import { Route, Router, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import { Home, Settings } from "lucide-react";
 import { Dashboard } from "./pages/Dashboard";
-import TableLists from "./pages/TableLists";
+import StudentLists from "./pages/StudentLists.tsx";
 import Teachers from "./pages/Teachers";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
@@ -22,12 +22,12 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/home" element={<Home />} />
 
-        <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/lists" element={<TableLists />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/teachers" element={<Teachers />} />
-        </Route>
+        <Route element={<ProtectedRoute />}></Route>
+
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/lists" element={<StudentLists />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/teachers" element={<Teachers />} />
       </Routes>
     </>
   );

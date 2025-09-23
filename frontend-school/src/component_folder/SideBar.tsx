@@ -9,7 +9,10 @@ import {
 } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 
+
 function Sidebar() {
+
+
   return (
     <>
       <div className="sidebar bg-[#3c5137] flex flex-col">

@@ -10,6 +10,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 
 class LoginController extends Controller
@@ -35,6 +36,7 @@ class LoginController extends Controller
             ], 200);
 
         } catch (\Throwable $th) {
+            Log::error($th);
             return response()->json([
                 'error' => 'error ' . $th,
             ], 500);
@@ -57,7 +59,7 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($validate)) {
-            session()->regenerate();
+            $request->session()->regenerate();
             return response()->json([
                 'message' => 'Successfully logged in',
                 'user' => Auth::user(),
@@ -73,8 +75,6 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('web')->logout();
-
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

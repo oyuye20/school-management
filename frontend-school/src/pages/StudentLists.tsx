@@ -12,7 +12,7 @@ import {useMutation} from "@tanstack/react-query";
 import {http} from "../services/http";
 import AddStudentModal from "../modals/AddStudentModal.tsx";
 
-function TableLists() {
+function StudentLists() {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -325,6 +325,8 @@ function TableLists() {
             <div className="bg-[#c8eac2] h-dvh flex">
                 <Sidebar/>
 
+
+                {/* MAIN TABLE WITH STUDENTS*/}
                 <div className="main grow overflow-auto">
                     <NavBar/>
 
@@ -374,4 +376,4 @@ function TableLists() {
     );
 }
 
-export default TableLists;
+export default StudentLists;

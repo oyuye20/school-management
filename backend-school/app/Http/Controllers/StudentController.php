@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Responses\MessageResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use PhpParser\Node\Expr\New_;
 
 use function Laravel\Prompts\select;
@@ -26,6 +27,7 @@ class StudentController extends Controller
                 $q->select('user_id', 'student_id');
             }
         ])->paginate(10);
+
 
         return StudentResource::collection($students);
     }
@@ -58,6 +60,7 @@ class StudentController extends Controller
                     'role' => 'student'
                 ]);
 
+
                 $user->userInfo()->create([
                     'first_name' => $req->first_name,
                     'middle_name' => $req->middle_name,
@@ -80,6 +83,7 @@ class StudentController extends Controller
             return (new MessageResponse('success', 200, 'Student added'))->message();
 
         } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return response()->json([
                 'error' => $th->getMessage()
             ], 500);

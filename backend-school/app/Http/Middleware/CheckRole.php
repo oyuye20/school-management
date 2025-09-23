@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
@@ -15,8 +16,14 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
-        if($request->user()->role !== $role){
-            abort(403);
+        if($request->user()?->role !== $role){
+            Log::error("You are not permitted " . $request);
+
+            return response()->json([
+                "message" => "You don't have access"
+            ], 403);
+
+            
         }
         return $next($request);
     }

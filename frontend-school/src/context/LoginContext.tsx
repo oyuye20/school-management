@@ -29,6 +29,8 @@ export const LoginProvider = ({ children }: LoginContextProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setLoading] = useState(true)
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     http
       .get("api/user")
@@ -44,8 +46,6 @@ export const LoginProvider = ({ children }: LoginContextProviderProps) => {
 
   http.interceptors.response.use(
     function (response) {
-      // Any status code that falls within the range of 2xx causes this function to trigger.
-      // Do something with response data (e.g., log it, transform it)
       console.log("Successful response:", response);
       return response; // Always return the response object!
     },
@@ -57,8 +57,9 @@ export const LoginProvider = ({ children }: LoginContextProviderProps) => {
       if (error.response) {
         switch (error.response.status) {
           case 401:
+            // navigate('/settings')
             console.warn("Unauthorized! Redirecting to login...");
-            <Navigate to={"/"} />;
+            // <Navigate to={"/settings"} />;
 
             // window.location.href = '/login';
             break;

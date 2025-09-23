@@ -40,7 +40,7 @@ Route::prefix('v1')->group(function () {
 
 
     /* FOR STUDENT ROUTE */
-    Route::prefix('/students')/*->middleware(['role:teacher', 'auth:sanctum'])*/->group(function () {
+    Route::prefix('/students')->middleware([/* 'role:teacher' */])->group(function () {
         Route::get('/', [StudentController::class, 'index']);
         Route::get('/{id}', [StudentController::class, 'showStudent']);
         Route::post('/', [StudentController::class, 'create']);
@@ -48,7 +48,7 @@ Route::prefix('v1')->group(function () {
     /* END OF STUDENT ROUTE  */
 
     /* FOR TEACHER ROLE*/
-    Route::prefix('/teachers')->middleware([/*'role:teacher', 'auth:sanctum'*/])->group(function () {
+    Route::prefix('/teachers')->middleware(['role:teacher', 'auth:sanctum'])->group(function () {
         Route::get('/', [TeacherController::class, 'index']);
         Route::get('/{id}', [TeacherController::class, 'showTeacher']);
         Route::post('/', [TeacherController::class, 'create']);
