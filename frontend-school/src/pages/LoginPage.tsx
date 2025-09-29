@@ -5,8 +5,12 @@ import React, {
   useState,
 } from "react";
 import { http } from "../services/http";
+import {useNavigate} from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+
   const [formValue, setFormValue] = useState({
       email: "",
       password: "",
@@ -26,8 +30,8 @@ const LoginPage = () => {
         .then(async () => {
           await http
             .post("api/v1/login", formValue)
-            .then((res) => {
-              console.log(res);
+            .then(() => {
+              navigate('/dashboard')
             })
             .catch((err) => {
               console.log(err.response.data);
@@ -47,17 +51,6 @@ const LoginPage = () => {
         .catch((err) => {
           console.log(err);
         });
-  
-      /* http
-          .get("api/v1/teachers")
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          }); */
-  
-  
     };
   
     const Logout = () => {

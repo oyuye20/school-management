@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { studentSchemaZod } from "../schemas/schemas.ts";
-import { addStudents } from "../api/apiCalls.ts";
+import { addStudents } from "../api/studentAPI.ts";
 
 import { useMutation } from "@tanstack/react-query";
 import z from "zod";
@@ -20,7 +20,7 @@ const AddStudentModal: React.FC<AddStudentProps> = ({ elementId }) => {
     watch,
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<StudentFields>({
     resolver: zodResolver(studentSchemaZod),
     defaultValues: {
@@ -37,6 +37,7 @@ const AddStudentModal: React.FC<AddStudentProps> = ({ elementId }) => {
     },
 
     onError: (err) => {
+
       Object.entries(err.response.data.errors).forEach(([field, messages]) => {
 
         setError(field as keyof StudentFields, {

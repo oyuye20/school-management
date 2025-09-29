@@ -25,7 +25,7 @@ function App() {
         <Route element={<ProtectedRoute />}></Route>
 
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/lists" element={<StudentLists />} />
+        <Route path="/lists"  element={<StudentLists />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/teachers" element={<Teachers />} />
       </Routes>
